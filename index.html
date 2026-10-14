@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poliforte Concretos | Concreto Usinado, Materiais e Locação de Betoneiras</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for industrial icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        poliblue: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            250: '#93c5fd',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            dark: '#0f172a',
+                            darker: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <header class="bg-poliblue-darker text-white sticky top-0 z-50 shadow-xl border-b border-blue-900/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="bg-gradient-to-br from-blue-500 to-blue-700 text-white p-2.5 rounded-xl font-black text-2xl shadow-lg flex items-center justify-center">
+                    <i class="fa-solid fa-truck-ramp-box"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight text-white block leading-tight">POLIFORTE CONCRETOS</span>
+                    <span class="text-xs text-blue-400 font-semibold tracking-widest uppercase">Concreto & Locação</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-1 lg:space-x-4">
+                <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition-all text-blue-400 bg-blue-950/60 border border-blue-800/50"><i class="fa-solid fa-store mr-1.5"></i> Loja & Categorias</button>
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition-all text-slate-300 hover:text-white hover:bg-slate-800/60"><i class="fa-solid fa-chart-line mr-1.5"></i> Painel de Vendas</button>
+                <button onclick="switchTab('seller')" id="nav-seller" class="nav-btn px-3.5 py-2 rounded-xl text-sm font-semibold transition-all text-slate-300 hover:text-white hover:bg-slate-800/60"><i class="fa-solid fa-file-invoice-dollar mr-1.5"></i> Gerador de Cobrança</button>
+            </nav>
+
+            <!-- Cart Trigger & Mobile Menu -->
+            <div class="flex items-center space-x-3">
+                <button onclick="openCartDrawer()" class="relative flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-bold shadow-md transition-all">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="hidden sm:inline">Carrinho</span>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-amber-500 text-slate-950 font-black text-xs w-6 h-6 rounded-full flex items-center justify-center shadow-md">0</span>
+                </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white focus:outline-none p-2">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-poliblue-dark border-t border-slate-800 px-4 pt-3 pb-4 space-y-2">
+            <button onclick="switchTab('home'); toggleMobileMenu();" class="block w-full text-left px-3 py-2.5 rounded-xl text-base font-medium text-white bg-blue-900/50"><i class="fa-solid fa-store mr-2"></i> Loja & Categorias</button>
+            <button onclick="switchTab('dashboard'); toggleMobileMenu();" class="block w-full text-left px-3 py-2.5 rounded-xl text-base font-medium text-slate-300 hover:bg-slate-800"><i class="fa-solid fa-chart-line mr-2"></i> Painel de Vendas</button>
+            <button onclick="switchTab('seller'); toggleMobileMenu();" class="block w-full text-left px-3 py-2.5 rounded-xl text-base font-medium text-slate-300 hover:bg-slate-800"><i class="fa-solid fa-file-invoice-dollar mr-2"></i> Gerador de Cobrança</button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- ==================== HOME / STORE VIEW ==================== -->
+        <div id="view-home" class="view-section">
+            <!-- Hero Banner -->
+            <section class="relative bg-gradient-to-br from-poliblue-darker via-blue-950 to-poliblue-dark text-white overflow-hidden py-20 lg:py-28">
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#60a5fa_1px,transparent_1px)] [background-size:20px_20px]"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <div class="space-y-6">
+                            <span class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                                <i class="fa-solid fa-shield-halved mr-2"></i> Poliforte Concretos: Excelência em Concreto e Frota Própria
+                            </span>
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+                                Concreto Usinado e Locação com <span class="text-blue-400 underline decoration-blue-500/40">Garantia Poliforte</span>.
+                            </h1>
+                            <p class="text-lg text-slate-300 max-w-xl font-normal">
+                                Faça seu pedido diretamente pelo site com segurança. Concreto certificado, agregados de alta qualidade e caminhões betoneiras modernos entregues na sua obra.
+                            </p>
+                            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
+                                <a href="#catalogo" class="inline-flex justify-center items-center px-7 py-4 border border-transparent text-base font-bold rounded-2xl text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/30">
+                                    <i class="fa-solid fa-boxes-stacked mr-2"></i> Ver Catálogo por Categoria
+                                </a>
+                                <button onclick="switchTab('dashboard')" class="inline-flex justify-center items-center px-7 py-4 border border-blue-800 text-base font-bold rounded-2xl text-white bg-slate-900/80 hover:bg-slate-900 transition-all">
+                                    <i class="fa-solid fa-chart-line mr-2 text-blue-400"></i> Acessar Painel
+                                </button>
+                            </div>
+                            <!-- Trust Metrics -->
+                            <div class="grid grid-cols-3 gap-4 pt-8 border-t border-blue-900/50">
+                                <div>
+                                    <p class="text-2xl font-black text-blue-400">+15 Anos</p>
+                                    <p class="text-xs text-slate-400 font-medium">Tradição na construção</p>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-black text-blue-400">+35 Frota</p>
+                                    <p class="text-xs text-slate-400 font-medium">Betoneiras e caminhões</p>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-black text-blue-400">100%</p>
+                                    <p class="text-xs text-slate-400 font-medium">Pedidos via site</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <div class="relative mx-auto max-w-md lg:max-w-none rounded-3xl overflow-hidden shadow-2xl border-4 border-blue-900/50 bg-slate-900 p-2">
+                                <img src="https://placehold.co/600x450/1e3a8a/93c5fd?text=Poliforte+Concreto+Usinado" alt="Caminhão Betoneira Poliforte Concretos" class="w-full h-80 sm:h-96 object-cover rounded-2xl">
+                                <div class="absolute bottom-6 left-6 right-6 bg-poliblue-darker/95 backdrop-blur-md p-4 rounded-2xl border border-blue-900">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="bg-blue-600 p-3 rounded-xl text-white shadow">
+                                            <i class="fa-solid fa-truck text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-extrabold text-white">Poliforte Concretos & Frota</p>
+                                            <p class="text-xs text-blue-300 font-medium">Atendimento técnico para grandes e pequenas obras</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categorized Catalog Section -->
+            <section id="catalogo" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2 block">Catálogo Oficial Poliforte</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Escolha por Categoria e Faça seu Pedido</h2>
+                    <p class="text-slate-600 mt-2">Selecione entre concreto usinado, materiais pesados e locação de equipamentos com cotação e compra imediata.</p>
+                    
+                    <!-- Category Tabs -->
+                    <div class="flex flex-wrap justify-center gap-2 mt-8">
+                        <button onclick="filterCatalog('all')" id="cat-btn-all" class="cat-btn px-5 py-2.5 text-sm font-bold rounded-xl bg-blue-600 text-white shadow-md transition-all">Todos os Produtos</button>
+                        <button onclick="filterCatalog('concreto')" id="cat-btn-concreto" class="cat-btn px-5 py-2.5 text-sm font-bold rounded-xl bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition-all">Concreto Usinado</button>
+                        <button onclick="filterCatalog('material')" id="cat-btn-material" class="cat-btn px-5 py-2.5 text-sm font-bold rounded-xl bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition-all">Materiais Básicos & Aço</button>
+                        <button onclick="filterCatalog('locacao')" id="cat-btn-locacao" class="cat-btn px-5 py-2.5 text-sm font-bold rounded-xl bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition-all">Locação de Equipamentos</button>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+
+            <!-- Quality Assurance Section -->
+            <section class="bg-blue-950 text-white py-16 border-y border-blue-900">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-2xl mx-auto mb-12">
+                        <span class="text-blue-400 font-bold uppercase tracking-wider text-xs mb-2 block">Padrão Poliforte</span>
+                        <h3 class="text-3xl font-extrabold tracking-tight">Compromisso com a sua Obra</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-blue-900/40 p-8 rounded-3xl border border-blue-800/60 shadow-lg">
+                            <div class="w-14 h-14 bg-blue-600/20 text-blue-400 rounded-2xl flex items-center justify-center text-2xl font-bold mb-5 border border-blue-500/30">
+                                <i class="fa-solid fa-certificate"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-2">Concreto Certificado</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed">Ensaios rigorosos de laboratório e controle de fck em todas as dosagens de concreto usinado Poliforte.</p>
+                        </div>
+                        <div class="bg-blue-900/40 p-8 rounded-3xl border border-blue-800/60 shadow-lg">
+                            <div class="w-14 h-14 bg-blue-600/20 text-blue-400 rounded-2xl flex items-center justify-center text-2xl font-bold mb-5 border border-blue-500/30">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-2">Frota Monitorada 24h</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed">Caminhões betoneiras modernos com GPS para garantir que o concreto chegue no tempo de pega ideal.</p>
+                        </div>
+                        <div class="bg-blue-900/40 p-8 rounded-3xl border border-blue-800/60 shadow-lg">
+                            <div class="w-14 h-14 bg-blue-600/20 text-blue-400 rounded-2xl flex items-center justify-center text-2xl font-bold mb-5 border border-blue-500/30">
+                                <i class="fa-solid fa-calculator"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-2">Suporte de Engenharia</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed">Equipe técnica pronta para calcular volumes, traços e orientar sobre a locação ideal de equipamentos.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== SALES DASHBOARD VIEW ==================== -->
+        <div id="view-dashboard" class="view-section hidden py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8 pb-6 border-b border-slate-200">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1 block">Poliforte Concretos — Gestão</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Painel de Acompanhamento de Vendas</h2>
+                    <p class="text-slate-600 mt-1">Acompanhe todos os pedidos feitos no site e cobranças geradas pelos vendedores em tempo real.</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex space-x-3">
+                    <button onclick="switchTab('seller')" class="inline-flex items-center px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition-all shadow-md">
+                        <i class="fa-solid fa-plus mr-2"></i> Nova Cobrança
+                    </button>
+                    <button onclick="refreshDashboard()" class="inline-flex items-center px-4 py-2.5 bg-white hover:bg-slate-100 text-slate-700 font-bold rounded-xl text-sm border border-slate-300 transition-all shadow-sm">
+                        <i class="fa-solid fa-rotate mr-2 text-slate-500"></i> Atualizar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Metrics Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Faturamento Total</p>
+                        <h3 id="stat-revenue" class="text-2xl font-black text-slate-900 mt-1">R$ 0,00</h3>
+                        <span class="text-xs text-emerald-600 font-bold mt-1 inline-block"><i class="fa-solid fa-arrow-trend-up mr-1"></i> Pedidos confirmados</span>
+                    </div>
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl font-bold shadow-sm">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Total de Pedidos</p>
+                        <h3 id="stat-sales-count" class="text-2xl font-black text-slate-900 mt-1">0</h3>
+                        <span class="text-xs text-blue-600 font-bold mt-1 inline-block"><i class="fa-solid fa-check mr-1"></i> Site & Vendedores</span>
+                    </div>
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl font-bold shadow-sm">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Locações Ativas</p>
+                        <h3 id="stat-rentals-count" class="text-2xl font-black text-slate-900 mt-1">0</h3>
+                        <span class="text-xs text-amber-600 font-bold mt-1 inline-block"><i class="fa-solid fa-truck-ramp-box mr-1"></i> Betoneiras em campo</span>
+                    </div>
+                    <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl font-bold shadow-sm">
+                        <i class="fa-solid fa-truck"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Valores Pendentes</p>
+                        <h3 id="stat-pending" class="text-2xl font-black text-slate-900 mt-1">R$ 0,00</h3>
+                        <span class="text-xs text-rose-600 font-bold mt-1 inline-block"><i class="fa-solid fa-clock mr-1"></i> Aguardando pagamento</span>
+                    </div>
+                    <div class="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl font-bold shadow-sm">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Table -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="p-6 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <h3 class="text-lg font-black text-slate-900">Histórico de Pedidos e Vendas — Poliforte</h3>
+                    <div class="flex items-center space-x-3">
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-search"></i>
+                            </span>
+                            <input type="text" id="search-sales" onkeyup="filterSalesTable()" placeholder="Buscar cliente..." class="pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-200 text-left">
+                        <thead class="bg-slate-50 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
+                            <tr>
+                                <th class="px-6 py-4">ID / Data</th>
+                                <th class="px-6 py-4">Cliente / Contato</th>
+                                <th class="px-6 py-4">Itens do Pedido</th>
+                                <th class="px-6 py-4">Valor Total</th>
+                                <th class="px-6 py-4">Pagamento</th>
+                                <th class="px-6 py-4">Status</th>
+                                <th class="px-6 py-4 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-table-body" class="divide-y divide-slate-200 text-sm text-slate-700">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SELLER / BILLING GENERATOR VIEW ==================== -->
+        <div id="view-seller" class="view-section hidden py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-8 pb-6 border-b border-slate-200">
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1 block">Área Exclusiva de Vendas — Poliforte</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Gerador de Cobranças e Pedidos Manuais</h2>
+                <p class="text-slate-600 mt-1">Preencha os dados do cliente e selecione os itens do catálogo para emitir uma cobrança segura com link Pix e boleto.</p>
+            </div>
+
+            <form id="billing-form" onsubmit="handleGenerateCharge(event)" class="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                <!-- Client Details -->
+                <div>
+                    <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center">
+                        <span class="w-7 h-7 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-black mr-2.5 shadow">1</span>
+                        Dados do Cliente
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Nome / Razão Social *</label>
+                            <input type="text" id="seller-client-name" required placeholder="Ex: Construtora Horizonte Ltda" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1.5">CPF ou CNPJ *</label>
+                            <input type="text" id="seller-client-doc" required placeholder="00.000.000/0001-00" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Telefone / WhatsApp *</label>
+                            <input type="text" id="seller-client-phone" required placeholder="(11) 99999-9999" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1.5">E-mail para Envio</label>
+                            <input type="email" id="seller-client-email" placeholder="contato@obra.com.br" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-slate-200">
+
+                <!-- Item Selection -->
+                <div>
+                    <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center">
+                        <span class="w-7 h-7 rounded-xl bg-blue-600 text-white flex items-center justify-center text-sm font-black mr-2.5 shadow">2</span>
+                        Seleção de Concreto ou Equipamento
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Item do Catálogo Poliforte</label>
+                            <select id="seller-catalog-select" onchange="updateSellerPrice()" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Quantidade</label>
+                            <input type="number" id="seller-item-qty" min="1" value="1" oninput="calculateSellerTotal()" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Preço Unitário (R$)</label>
+                            <input type="number" step="0.01" id="seller-item-price" required oninput="calculateSellerTotal()" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Forma de Pagamento</label>
+                            <select id="seller-payment-method" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="Pix">Pix Instantâneo (QR Code)</option>
+                                <option value="Cartão de Crédito">Cartão de Crédito (Até 12x)</option>
+                                <option value="Boleto Bancário">Boleto Bancário (30 dias)</option>
+                                <option value="Faturado Obra">Faturado para Construtora</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-slate-200">
+
+                <!-- Total & Submit -->
+                <div class="bg-blue-50/70 p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between border border-blue-100">
+                    <div>
+                        <span class="text-xs font-bold uppercase text-blue-700 block">Total da Cobrança Poliforte</span>
+                        <span id="seller-display-total" class="text-3xl font-black text-blue-900">R$ 0,00</span>
+                    </div>
+                    <div class="mt-4 sm:mt-0 w-full sm:w-auto">
+                        <button type="submit" class="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl text-base shadow-xl transition-all flex items-center justify-center">
+                            <i class="fa-solid fa-qrcode mr-2"></i> Gerar Cobrança e Registrar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </main>
+
+    <!-- ==================== CART DRAWER ==================== -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeCartDrawer()"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                <div class="p-6 bg-poliblue-darker text-white flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-blue-600 p-2.5 rounded-xl">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-lg">Seu Carrinho Poliforte</h3>
+                            <p class="text-xs text-blue-300">Itens selecionados para pedido direto</p>
+                        </div>
+                    </div>
+                    <button onclick="closeCartDrawer()" class="text-slate-300 hover:text-white p-2">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 divide-y divide-slate-100">
+                    <!-- Cart items populated by JS -->
+                </div>
+
+                <div class="p-6 bg-slate-50 border-t border-slate-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm font-bold text-slate-600 uppercase">Subtotal</span>
+                        <span id="cart-total" class="text-2xl font-black text-blue-900">R$ 0,00</span>
+                    </div>
+                    <button onclick="openCheckoutModal()" id="checkout-btn" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-2xl shadow-lg transition-all flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-lock mr-2"></i> Finalizar Pedido no Site
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CHECKOUT MODAL (DIRECT ORDER) ==================== -->
+    <div id="modal-checkout" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full mx-4 p-8 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-truck-ramp-box"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-black text-slate-900">Finalizar Pedido Poliforte</h3>
+                        <p class="text-xs text-slate-500">Preencha os dados de entrega da sua obra</p>
+                    </div>
+                </div>
+                <button onclick="closeCheckoutModal()" class="text-slate-400 hover:text-slate-600 p-2">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleDirectCheckout(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Nome Completo / Empresa *</label>
+                    <input type="text" id="chk-name" required placeholder="Construtora / Nome do Responsável" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">WhatsApp / Telefone *</label>
+                        <input type="text" id="chk-phone" required placeholder="(11) 99999-9999" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">CPF ou CNPJ *</label>
+                        <input type="text" id="chk-doc" required placeholder="000.000.000-00" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Endereço de Entrega da Obra *</label>
+                    <input type="text" id="chk-address" required placeholder="Rua, Número, Bairro, Cidade - SP" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Forma de Pagamento</label>
+                    <select id="chk-payment" class="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="Pix">Pix no Site (QR Code Instantâneo)</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito (Até 12x)</option>
+                        <option value="Boleto Bancário">Boleto Bancário Faturado</option>
+                        <option value="Faturado Obra">Faturamento Cadastrado Construtora</option>
+                    </select>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex justify-between items-center my-4">
+                    <span class="text-xs font-bold text-slate-600 uppercase">Valor Total do Pedido:</span>
+                    <span id="chk-modal-total" class="text-xl font-black text-blue-900">R$ 0,00</span>
+                </div>
+                <button type="submit" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-2xl shadow-xl transition-all">
+                    Confirmar Pedido na Poliforte Concretos
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Order Success -->
+    <div id="modal-success" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full mx-4 p-8 shadow-2xl text-center">
+            <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-900">Pedido Realizado com Sucesso!</h3>
+            <p class="text-sm text-slate-600 mt-2">Obrigado por escolher a <strong>Poliforte Concretos</strong>. Seu pedido foi registrado e nossa equipe técnica já iniciou o planejamento da entrega.</p>
+            
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 my-6 text-left space-y-2">
+                <div class="flex justify-between text-xs">
+                    <span class="text-slate-500 font-bold">Nº do Pedido:</span>
+                    <span id="succ-order-id" class="font-extrabold text-blue-900">-</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                    <span class="text-slate-500 font-bold">Cliente:</span>
+                    <span id="succ-client" class="font-bold text-slate-800">-</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                    <span class="text-slate-500 font-bold">Total:</span>
+                    <span id="succ-total" class="font-black text-emerald-600">-</span>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <button onclick="closeSuccessModal()" class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl text-sm shadow-lg transition-all">
+                    Ver no Painel de Vendas
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center space-x-3 transform translate-y-24 opacity-0 transition-all duration-300 border border-slate-800">
+        <i class="fa-solid fa-circle-check text-blue-400 text-lg"></i>
+        <span id="toast-message" class="text-sm font-semibold">Ação realizada com sucesso!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-poliblue-darker text-slate-400 border-t border-blue-900/40 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-blue-600 text-white p-2.5 rounded-xl font-black text-xl">
+                            <i class="fa-solid fa-truck-ramp-box"></i>
+                        </div>
+                        <span class="text-lg font-extrabold text-white">POLIFORTE CONCRETOS</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Sua parceira definitiva em concreto usinado, materiais pesados de construção civil e locação de caminhões betoneiras.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider">Categorias de Concreto</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#catalogo" onclick="switchTab('home')" class="hover:text-blue-400 transition-colors">Concreto Usinado FCK 25/30</a></li>
+                        <li><a href="#catalogo" onclick="switchTab('home')" class="hover:text-blue-400 transition-colors">Concreto para Lajes e Pisos</a></li>
+                        <li><a href="#catalogo" onclick="switchTab('home')" class="hover:text-blue-400 transition-colors">Argamassa Usinada Poliforte</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider">Locação & Frota</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#catalogo" onclick="switchTab('home')" class="hover:text-blue-400 transition-colors">Caminhão Betoneira 8m³</a></li>
+                        <li><a href="#catalogo" onclick="switchTab('home')" class="hover:text-blue-400 transition-colors">Betoneira 400L</a></li>
+                        <li><a href="#catalogo" onclick="switchTab('home')" class="hover:text-blue-400 transition-colors">Andaimes Metálicos NR-18</a></li>
+                        <li><a href="#catalogo" onclick="switchTab('home')" class="hover:text-blue-400 transition-colors">Compactadores de Solo</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider">Central de Atendimento</h4>
+                    <p class="text-xs mb-2"><i class="fa-solid fa-phone text-blue-400 mr-2"></i> (11) 3456-7890</p>
+                    <p class="text-xs mb-2"><i class="fa-brands fa-whatsapp text-blue-400 mr-2"></i> (11) 98888-7777</p>
+                    <p class="text-xs mb-2"><i class="fa-solid fa-envelope text-blue-400 mr-2"></i> contato@poliforteconcretos.com.br</p>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-blue-900/40 text-center text-xs text-slate-500">
+                <p>&copy; 2026 Poliforte Concretos. Todos os direitos reservados. Pronto para Hospedagem no GitHub Pages.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Catalog data with categorized structure for Poliforte Concretos
+        const catalogItems = [
+            { id: 1, name: "Concreto Usinado FCK 25 (m³)", category: "concreto", price: 320.00, unit: "m³", badge: "Alta Resistência", icon: "fa-cubes", img: "https://placehold.co/400x300/1e3a8a/93c5fd?text=Concreto+Usinado" },
+            { id: 2, name: "Concreto Usinado FCK 30 Estrutural (m³)", category: "concreto", price: 350.00, unit: "m³", badge: "Estrutural", icon: "fa-cube", img: "https://placehold.co/400x300/1e3a8a/93c5fd?text=Concreto+FCK+30" },
+            { id: 3, name: "Locação Caminhão Betoneira 8m³", category: "locacao", price: 850.00, unit: "Diária", badge: "Frota Própria", icon: "fa-truck", img: "https://placehold.co/400x300/1e3a8a/93c5fd?text=Caminhao+Betoneira" },
+            { id: 4, name: "Cimento CP II-E 50kg Poliforte", category: "material", price: 35.90, unit: "Saco", badge: "Mais Vendido", icon: "fa-box", img: "https://placehold.co/400x300/1e3a8a/93c5fd?text=Cimento+50kg" },
+            { id: 5, name: "Areia Média Lavada (m³)", category: "material", price: 125.00, unit: "m³", badge: "Entrega Rápida", icon: "fa-mountain", img: "https://placehold.co/400x300/1e3a8a/93c5fd?text=Areia+Media" },
+            { id: 6, name: "Locação Betoneira 400L", category: "locacao", price: 95.00, unit: "Diária", badge: "Revisada", icon: "fa-gear", img: "https://placehold.co/400x300/1e3a8a/93c5fd?text=Betoneira+400L" },
+            { id: 7, name: "Brita nº 1 Lavada (m³)", category: "material", price: 140.00, unit: "m³", badge: "Qualidade ABNT", icon: "fa-gem", img: "https://placehold.co/400x300/1e3a8a/93c5fd?text=Brita+N1" },
+            { id: 8, name: "Vergalhão CA-50 12mm (Barra 12m)", category: "material", price: 59.90, unit: "Barra", badge: "Aço Gerdau", icon: "fa-bars", img: "https://placehold.co/400x300/1e3a8a/93c5fd?text=Vergalhao+12mm" },
+            { id: 9, name: "Locação Kit Andaime Metálico (Peça)", category: "locacao", price: 45.00, unit: "Diária", badge: "NR-18", icon: "fa-layer-group", img: "https://placehold.co/400x300/1e3a8a/93c5fd?text=Andaimes+Metalicos" }
+        ];
+
+        // Cart State
+        let cart = [];
+
+        // Sales Data State for Dashboard
+        let salesData = [
+            { id: "POL-3042", date: "14/10/2026", client: "Construtora Horizonte S/A", items: "15m³ Concreto Usinado FCK 25 + 1x Betoneira", total: 5650.00, payment: "Pix", status: "Pago" },
+            { id: "POL-3041", date: "14/10/2026", client: "Eng. Ricardo Mendes", items: "80x Cimento CP II-E 50kg", total: 2872.00, payment: "Cartão de Crédito", status: "Pago" },
+            { id: "POL-3040", date: "13/10/2026", client: "MRV Engenharia (Obra Sul)", items: "30m³ Concreto Usinado FCK 30", total: 10500.00, payment: "Faturado Obra", status: "Pendente" },
+            { id: "POL-3039", date: "12/10/2026", client: "Reforma Rápida Comércio", items: "3x Locação Betoneira 400L", total: 285.00, payment: "Boleto Bancário", status: "Pago" }
+        ];
+
+        // Initialize on load
+        window.onload = function() {
+            renderCatalog('all');
+            populateSellerSelect();
+            updateDashboardMetrics();
+            renderSalesTable();
+            updateCartBadge();
+        };
+
+        // Switch Tabs SPA
+        function switchTab(tabId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById('view-' + tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-blue-400', 'bg-blue-950/60', 'border', 'border-blue-800/50');
+                btn.classList.add('text-slate-300');
+            });
+
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-slate-300');
+                activeBtn.classList.add('text-blue-400', 'bg-blue-950/60', 'border', 'border-blue-800/50');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Render Catalog by Category
+        function renderCatalog(category) {
+            const grid = document.getElementById('catalog-grid');
+            grid.innerHTML = '';
+
+            const filtered = category === 'all' ? catalogItems : catalogItems.filter(i => i.category === category);
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-2xl transition-all flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div class="relative overflow-hidden bg-slate-100 h-52">
+                        <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-poliblue-darker text-blue-400 text-xs font-extrabold px-3 py-1.5 rounded-xl border border-blue-900 shadow">
+                            ${item.badge}
+                        </span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">Poliforte ${item.category.toUpperCase()}</span>
+                            <h4 class="text-base font-extrabold text-slate-900 mb-3">${item.name}</h4>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+                            <div>
+                                <span class="text-xs text-slate-400 block font-medium">Preço por ${item.unit}</span>
+                                <span class="text-xl font-black text-blue-900">R$ ${item.price.toFixed(2).replace('.', ',')}</span>
+                            </div>
+                            <button onclick="addToCart(${item.id})" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center">
+                                <i class="fa-solid fa-cart-plus mr-1.5"></i> Comprar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Update category button states
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+                b.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+            });
+            const activeBtn = document.getElementById('cat-btn-' + category);
+            if(activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+            }
+        }
+
+        function filterCatalog(cat) {
+            renderCatalog(cat);
+        }
+
+        // Cart Management
+        function addToCart(itemId) {
+            const item = catalogItems.find(i => i.id === itemId);
+            if(!item) return;
+
+            const existing = cart.find(c => c.id === itemId);
+            if(existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+
+            updateCartBadge();
+            renderCartItems();
+            openCartDrawer();
+            showToast(`${item.name} adicionado ao carrinho!`);
+        }
+
+        function updateCartBadge() {
+            const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
+            document.getElementById('cart-badge').textContent = totalQty;
+        }
+
+        function openCartDrawer() {
+            document.getElementById('cart-drawer').classList.remove('hidden');
+            renderCartItems();
+        }
+
+        function closeCartDrawer() {
+            document.getElementById('cart-drawer').classList.add('hidden');
+        }
+
+        function changeCartQty(itemId, delta) {
+            const item = cart.find(c => c.id === itemId);
+            if(item) {
+                item.qty += delta;
+                if(item.qty <= 0) {
+                    cart = cart.filter(c => c.id !== itemId);
+                }
+            }
+            updateCartBadge();
+            renderCartItems();
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+
+            if(cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-slate-400">
+                        <i class="fa-solid fa-cart-shopping text-4xl mb-3 text-slate-300"></i>
+                        <p class="text-sm font-semibold">Seu carrinho Poliforte está vazio.</p>
+                    </div>
+                `;
+                document.getElementById('cart-total').textContent = "R$ 0,00";
+                document.getElementById('checkout-btn').disabled = true;
+                return;
+            }
+
+            document.getElementById('checkout-btn').disabled = false;
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.qty;
+                subtotal += itemTotal;
+
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between py-4";
+                div.innerHTML = `
+                    <div class="flex-1 pr-3">
+                        <h5 class="text-sm font-extrabold text-slate-900">${item.name}</h5>
+                        <p class="text-xs text-blue-600 font-bold mt-0.5">R$ ${item.price.toFixed(2)} x ${item.qty}</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="changeCartQty(${item.id}, -1)" class="w-7 h-7 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 font-bold text-xs flex items-center justify-center">-</button>
+                        <span class="text-sm font-black text-slate-800 w-5 text-center">${item.qty}</span>
+                        <button onclick="changeCartQty(${item.id}, 1)" class="w-7 h-7 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 font-bold text-xs flex items-center justify-center">+</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            document.getElementById('cart-total').textContent = `R$ ${subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+        }
+
+        function openCheckoutModal() {
+            if(cart.length === 0) return;
+            const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            document.getElementById('chk-modal-total').textContent = `R$ ${subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            closeCartDrawer();
+            document.getElementById('modal-checkout').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('modal-checkout').classList.add('hidden');
+        }
+
+        // Handle Direct Web Checkout
+        function handleDirectCheckout(e) {
+            e.preventDefault();
+            const name = document.getElementById('chk-name').value;
+            const phone = document.getElementById('chk-phone').value;
+            const doc = document.getElementById('chk-doc').value;
+            const address = document.getElementById('chk-address').value;
+            const payment = document.getElementById('chk-payment').value;
+
+            const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            const itemsSummary = cart.map(i => `${i.qty}x ${i.name}`).join(', ');
+            const newId = 'POL-' + (3043 + salesData.length);
+            const todayStr = new Date().toLocaleDateString('pt-BR');
+
+            const newSale = {
+                id: newId,
+                date: todayStr,
+                client: `${name} (${phone})`,
+                items: itemsSummary,
+                total: total,
+                payment: payment,
+                status: payment === 'Pix' || payment === 'Cartão de Crédito' ? 'Pago' : 'Pendente'
+            };
+
+            salesData.unshift(newSale);
+            updateDashboardMetrics();
+            renderSalesTable();
+
+            // Populate Success Modal
+            document.getElementById('succ-order-id').textContent = newId;
+            document.getElementById('succ-client').textContent = name;
+            document.getElementById('succ-total').textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+
+            // Reset cart
+            cart = [];
+            updateCartBadge();
+
+            closeCheckoutModal();
+            document.getElementById('modal-success').classList.remove('hidden');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('modal-success').classList.add('hidden');
+            switchTab('dashboard');
+        }
+
+        // Seller Billing Generator Logic
+        function populateSellerSelect() {
+            const select = document.getElementById('seller-catalog-select');
+            select.innerHTML = '';
+            catalogItems.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.id;
+                opt.textContent = `${item.name} (R$ ${item.price.toFixed(2)} / ${item.unit})`;
+                select.appendChild(opt);
+            });
+            if(catalogItems.length > 0) {
+                document.getElementById('seller-item-price').value = catalogItems[0].price;
+                calculateSellerTotal();
+            }
+        }
+
+        function updateSellerPrice() {
+            const id = parseInt(document.getElementById('seller-catalog-select').value);
+            const item = catalogItems.find(i => i.id === id);
+            if(item) {
+                document.getElementById('seller-item-price').value = item.price;
+                calculateSellerTotal();
+            }
+        }
+
+        function calculateSellerTotal() {
+            const price = parseFloat(document.getElementById('seller-item-price').value) || 0;
+            const qty = parseInt(document.getElementById('seller-item-qty').value) || 1;
+            const total = price * qty;
+            document.getElementById('seller-display-total').textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+        }
+
+        function handleGenerateCharge(e) {
+            e.preventDefault();
+            const clientName = document.getElementById('seller-client-name').value;
+            const catalogId = parseInt(document.getElementById('seller-catalog-select').value);
+            const itemObj = catalogItems.find(i => i.id === catalogId);
+            const qty = document.getElementById('seller-item-qty').value;
+            const price = parseFloat(document.getElementById('seller-item-price').value);
+            const paymentMethod = document.getElementById('seller-payment-method').value;
+
+            const total = price * qty;
+            const newId = 'POL-' + (3043 + salesData.length);
+            const todayStr = new Date().toLocaleDateString('pt-BR');
+
+            const newSale = {
+                id: newId,
+                date: todayStr,
+                client: clientName,
+                items: `${qty}x ${itemObj ? itemObj.name : 'Concreto/Equipamento'}`,
+                total: total,
+                payment: paymentMethod,
+                status: paymentMethod === 'Pix' || paymentMethod === 'Cartão de Crédito' ? 'Pago' : 'Pendente'
+            };
+
+            salesData.unshift(newSale);
+            updateDashboardMetrics();
+            renderSalesTable();
+            document.getElementById('billing-form').reset();
+            calculateSellerTotal();
+
+            showToast(`Cobrança ${newId} gerada e registrada com sucesso!`);
+            switchTab('dashboard');
+        }
+
+        // Dashboard Metrics & Table
+        function updateDashboardMetrics() {
+            let totalRevenue = 0;
+            let salesCount = salesData.length;
+            let rentalsCount = 0;
+            let pendingTotal = 0;
+
+            salesData.forEach(sale => {
+                if(sale.status === 'Pago') {
+                    totalRevenue += sale.total;
+                } else {
+                    pendingTotal += sale.total;
+                }
+                if(sale.items.toLowerCase().includes('betoneira') || sale.items.toLowerCase().includes('andaime')) {
+                    rentalsCount++;
+                }
+            });
+
+            document.getElementById('stat-revenue').textContent = `R$ ${totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            document.getElementById('stat-sales-count').textContent = salesCount;
+            document.getElementById('stat-rentals-count').textContent = rentalsCount;
+            document.getElementById('stat-pending').textContent = `R$ ${pendingTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+        }
+
+        function renderSalesTable(filterQuery = '') {
+            const tbody = document.getElementById('sales-table-body');
+            tbody.innerHTML = '';
+
+            const filtered = salesData.filter(s => s.client.toLowerCase().includes(filterQuery.toLowerCase()) || s.id.toLowerCase().includes(filterQuery.toLowerCase()));
+
+            if(filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="px-6 py-8 text-center text-slate-400">Nenhum pedido encontrado.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(sale => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-extrabold text-slate-900">${sale.id}<br><span class="text-xs text-slate-400 font-normal">${sale.date}</span></td>
+                    <td class="px-6 py-4 font-bold text-slate-800">${sale.client}</td>
+                    <td class="px-6 py-4 text-slate-600 text-xs font-medium">${sale.items}</td>
+                    <td class="px-6 py-4 font-black text-slate-900">R$ ${sale.total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                    <td class="px-6 py-4"><span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-xl text-xs font-bold border border-blue-100">${sale.payment}</span></td>
+                    <td class="px-6 py-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-black ${sale.status === 'Pago' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-amber-100 text-amber-700 border border-amber-200'}">
+                            ${sale.status}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <button onclick="toggleSaleStatus('${sale.id}')" class="text-xs font-bold px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-all shadow-sm" title="Alternar Status">
+                            <i class="fa-solid fa-arrows-rotate"></i> Alternar
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterSalesTable() {
+            const query = document.getElementById('search-sales').value;
+            renderSalesTable(query);
+        }
+
+        function toggleSaleStatus(id) {
+            const sale = salesData.find(s => s.id === id);
+            if(sale) {
+                sale.status = sale.status === 'Pago' ? 'Pendente' : 'Pago';
+                updateDashboardMetrics();
+                renderSalesTable(document.getElementById('search-sales').value);
+                showToast(`Status do pedido ${id} atualizado para ${sale.status}!`);
+            }
+        }
+
+        function refreshDashboard() {
+            updateDashboardMetrics();
+            renderSalesTable();
+            showToast("Painel atualizado com sucesso!");
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
